@@ -1,4 +1,4 @@
-import defaultExport from "/js/gallery-items.js"
+import defaultExport from "./gallery-items.js"
 
 const galleryListEl = document.querySelector('.gallery')
 const modalEl = document.querySelector('.lightbox')
