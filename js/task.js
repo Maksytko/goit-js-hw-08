@@ -4,6 +4,7 @@ const galleryListEl = document.querySelector('.gallery')
 const modalEl = document.querySelector('.lightbox')
 const modalImgEl = document.querySelector('.lightbox__image')
 const modalButtonEl = document.querySelector('.lightbox__button')
+const overlayEl = document.querySelector('.lightbox__overlay')
 let currentModalImgIndex
 
 
@@ -46,6 +47,20 @@ const findCurrentModalImgIndex = function (array) {
 }
 
 
+const removeAttributes = function () {
+    modalEl.classList.remove('is-open')
+    modalImgEl.src = ''
+    modalImgEl.alt = '' 
+}
+
+
+const removeListeners = function () {
+    document.removeEventListener('keydown', onEscButtonPress)
+    document.removeEventListener('keydown', changeModalImgByRightButtonPress)
+    document.removeEventListener('keydown', changeModalImgByLeftButtonPress)
+}
+
+
 const onImgClick = function (event) {
     if (event.target.nodeName !== 'IMG') {
         return
@@ -58,29 +73,30 @@ const onImgClick = function (event) {
     modalImgEl.alt = event.target.alt
     currentModalImgIndex = findCurrentModalImgIndex(defaultExport)
 
+    document.addEventListener('keydown', onEscButtonPress)
+    document.addEventListener('keydown', changeModalImgByRightButtonPress)
+    document.addEventListener('keydown', changeModalImgByLeftButtonPress)
 }
 
 
 const onModalButtonClick = function () {
-    modalEl.classList.remove('is-open')
-    modalImgEl.src = ''
-    modalImgEl.alt = ''
+    removeAttributes()
+    removeListeners()
 }
 
 
 const onEscButtonPress = function (event) {
-    if (modalEl.classList.contains('is-open') && event.code !== 'Escape') {
+    if (event.code !== 'Escape') {
         return
     }
 
-    modalEl.classList.remove('is-open')
-    modalImgEl.src = ''
-    modalImgEl.alt = ''
+    removeAttributes()
+    removeListeners()
 }
 
 
 const changeModalImgByRightButtonPress = function (event) {
-    if (modalEl.classList.contains('is-open') && event.code === 'ArrowRight') {
+    if (event.code === 'ArrowRight') {
         const nextModalImgindex = currentModalImgIndex + 1
         if (nextModalImgindex < defaultExport.length) {
             currentModalImgIndex += 1
@@ -99,7 +115,7 @@ const changeModalImgByRightButtonPress = function (event) {
 
 
 const changeModalImgByLeftButtonPress = function (event) {
-    if (modalEl.classList.contains('is-open') && event.code === 'ArrowLeft') {
+    if (event.code === 'ArrowLeft') {
         const nextModalImgindex = currentModalImgIndex - 1
         if (nextModalImgindex < 0) {
             modalImgEl.src = defaultExport[defaultExport.length - 1].original
@@ -116,20 +132,15 @@ const changeModalImgByLeftButtonPress = function (event) {
 
 }
 
-const onBlackPartModalElClick = function (event) {
-    if (event.target.nodeName !== 'DIV') {
-        return
-    }
 
-    modalEl.classList.remove('is-open')
-    modalImgEl.src = ''
-    modalImgEl.alt = ''    
+const onOverlayElClick = function () {
+    removeAttributes()
+    removeListeners()
 }
 
 
-modalEl.addEventListener('click', onBlackPartModalElClick)
+
+overlayEl.addEventListener('click', onOverlayElClick)
 galleryListEl.addEventListener('click', onImgClick)
 modalButtonEl.addEventListener('click', onModalButtonClick)
-document.addEventListener('keydown', onEscButtonPress)
-document.addEventListener('keydown', changeModalImgByRightButtonPress)
-document.addEventListener('keydown', changeModalImgByLeftButtonPress)
+
