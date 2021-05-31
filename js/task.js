@@ -79,7 +79,7 @@ const onImgClick = function (event) {
 }
 
 
-const onModalButtonClick = function () {
+const onModalExitElClick = function () {
     removeAttributes()
     removeListeners()
 }
@@ -133,14 +133,9 @@ const changeModalImgByLeftButtonPress = function (event) {
 }
 
 
-const onOverlayElClick = function () {
-    removeAttributes()
-    removeListeners()
-}
 
 
-
-overlayEl.addEventListener('click', onOverlayElClick)
+overlayEl.addEventListener('click', onModalExitElClick)
 galleryListEl.addEventListener('click', onImgClick)
-modalButtonEl.addEventListener('click', onModalButtonClick)
+modalButtonEl.addEventListener('click', onModalExitElClick)
 
